@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Make sure no extra characters exist before this line -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.projectname</groupId>
+    <artifactId>my-bdd-automation-project</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <allure.version>2.20.1</allure.version>
+        <selenium.version>4.30.0</selenium.version>
+        <cucumber.version>7.21.1</cucumber.version>
+        <poi.version>5.4.0</poi.version>
+        <restassured.version>5.4.0</restassured.version>
+        <testng.version>7.10.2</testng.version>
+        <extent.report.version>5.1.2</extent.report.version>
+        <allure.maven.plugin.version>2.10.0</allure.maven.plugin.version>
+        <log4j.version>2.20.0</log4j.version>
+        <applitools.version>5.76.0</applitools.version>
+        <jira.rest.java.client.version>5.2.2</jira.rest.java.client.version>
+        <cucumber.messages.version>27.2.0</cucumber.messages.version>
+        <slf4j.version>1.7.36</slf4j.version>
+        <junit.version>4.13.2</junit.version>
+        <healenium.version>3.5.4</healenium.version>
+        <!-- Updated to a version compatible with messages 27.2.0 -->
+        <gherkin.version>27.2.0</gherkin.version>
+      <com.itextpdf>9.1.0</com.itextpdf>
+    </properties>
+
+    <!-- Dependency Management using the Cucumber BOM -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.cucumber</groupId>
+                <artifactId>cucumber-bom</artifactId>
+                <version>${cucumber.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>2.18.0</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+        <!-- TestNG -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>${testng.version}</version>
+        </dependency>
+
+        <!-- RestAssured -->
+        <dependency>
+            <groupId>io.rest-assured</groupId>
+            <artifactId>rest-assured</artifactId>
+            <version>${restassured.version}</version>
+        </dependency>
+
+        <!-- SLF4J -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+
+        <!-- Selenium -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>${selenium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.11</version>
+        </dependency>
+
+        <!-- OpenAI Client -->
+        <dependency>
+            <groupId>com.theokanning.openai-gpt3-java</groupId>
+            <artifactId>service</artifactId>
+            <version>0.18.0</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.ATURepo</groupId>
+            <artifactId>atu-testrecorder</artifactId>
+            <version>2.1</version>
+            <scope>system</scope>
+            <systemPath>D:/batch264/264pratice/src/test/resources/ATUTestRecorder_2.1.jar</systemPath>
+        </dependency>
+        <!-- Cucumber Dependencies (versions managed by the BOM) -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/tech.grasshopper/extentreports-cucumber7-adapter -->
+        <dependency>
+            <groupId>tech.grasshopper</groupId>
+            <artifactId>extentreports-cucumber7-adapter</artifactId>
+            <version>1.14.0</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-testng</artifactId>
+            <version>${cucumber.version}</version>
+
+        </dependency>
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-picocontainer</artifactId>
+            <version>${cucumber.version}</version>
+        </dependency>
+        <!-- Add to pom.xml -->
+        <dependency>
+            <groupId>com.github.javafaker</groupId>
+            <artifactId>javafaker</artifactId>
+            <version>1.0.2</version>
+        </dependency>
+        <!-- Apache POI -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>${poi.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-io</groupId>
+                    <artifactId>commons-io</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.itextpdf/itext7-core -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itext7-core</artifactId>
+            <version>${com.itextpdf}</version>
+            <type>pom</type>
+        </dependency>
+        <!-- ChromeDriver -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-chrome-driver</artifactId>
+            <version>4.30.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-devtools-v132 -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-devtools-v132</artifactId>
+            <version>4.29.0</version>
+        </dependency>
+
+        <!-- Extent Reports -->
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>${extent.report.version}</version>
+        </dependency>
+
+        <!-- Allure Integration -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber7-jvm</artifactId>
+            <version>${allure.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.cucumber</groupId>
+                    <artifactId>messages</artifactId>
+
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-testng</artifactId>
+            <version>${allure.version}</version>
+        </dependency>
+
+
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.18.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents.client5</groupId>
+            <artifactId>httpclient5</artifactId>
+            <version>5.1</version>
+        </dependency>
+
+        <!-- Applitools -->
+        <dependency>
+          <groupId>com.applitools</groupId>
+          <artifactId>eyes-selenium-java5</artifactId>
+          <version>${applitools.version}</version>
+        </dependency>
+
+        <!-- Ashot (Screenshot comparison) -->
+        <dependency>
+            <groupId>ru.yandex.qatools.ashot</groupId>
+            <artifactId>ashot</artifactId>
+            <version>1.5.4</version>
+        </dependency>
+
+        <!-- Image Processing -->
+        <dependency>
+            <groupId>org.imgscalr</groupId>
+            <artifactId>imgscalr-lib</artifactId>
+            <version>4.2</version>
+        </dependency>
+
+        <!-- Healenium -->
+        <dependency>
+            <groupId>com.epam.healenium</groupId>
+            <artifactId>healenium-web</artifactId>
+            <version>${healenium.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.13.3</version>
+        </dependency>
+        <!-- OkHttp for HTTP requests -->
+        <dependency>
+            <groupId>com.squareup.okhttp3</groupId>
+            <artifactId>okhttp</artifactId>
+            <version>4.10.0</version>
+        </dependency>
+
+        <!-- Gson for JSON parsing -->
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+        <!-- Force version for Cucumber Messages to avoid conflicts -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>messages</artifactId>
+            <version>${cucumber.messages.version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Maven Compiler Plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.0</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+
+            <!-- Maven Surefire Plugin for Test Execution -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.2</version>
+                <configuration>
+                   <!-- <includes>
+                        <include>**/*IT.java</include>
+                        <include>**/*Test.java</include>
+                    </includes>-->
+                    <parallel>classes</parallel>
+                    <threadCount>2</threadCount>
+                    <suiteXmlFiles>
+                        <suiteXmlFile>testng.xml</suiteXmlFile>
+                    </suiteXmlFiles>
+                    <properties>
+                        <property>
+                            <name>usedefaultlisteners</name>
+                            <value>false</value>
+                        </property>
+                    </properties>
+                </configuration>
+            </plugin>
+
+            <!-- Allure Reporting Plugin -->
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>${allure.maven.plugin.version}</version>
+                <configuration>
+                    <reportVersion>${allure.version}</reportVersion>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>allure-report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- JaCoCo Code Coverage Plugin -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.8</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>

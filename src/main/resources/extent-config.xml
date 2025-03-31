@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extentreports>
+    <configuration>
+        <!-- Report Metadata -->
+        <documentTitle>Automation Test Report</documentTitle>
+        <reportName><![CDATA[
+      <div style="text-align:center;">
+        <img src="C:\Users\sreenu\OneDrive\Pictures\sreenupic.jpeg" alt="Company Logo" style="width:150px; vertical-align:middle;"/>
+        <br>
+        Regression Execution Report
+      </div>
+    ]]></reportName>
+        <encoding>UTF-8</encoding>
+        <protocol>HTTPS</protocol>
+
+        <!-- Visual Customizations -->
+        <theme>dark</theme>
+        <chartVisibilityOnOpen>true</chartVisibilityOnOpen>
+        <timelineEnabled>true</timelineEnabled>
+        <timeStampFormat>MMM dd, yyyy HH:mm:ss</timeStampFormat>
+
+        <!-- Custom CSS for Branding & Styling -->
+        <css><![CDATA[
+      /* Custom Brand Logo Style */
+      .brand-logo {
+          background-image: url('images/sreenupic.jpeg');
+          background-repeat: no-repeat;
+          background-position: left center;
+          padding-left: 60px;
+          height: 60px;
+      }
+
+      /* Additional custom styles */
+      body {
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background-color: #1e1e1e;
+          color: #ffffff;
+      }
+
+      .node.level-1 {
+          border-left: 3px solid #00bcd4;
+      }
+    ]]></css>
+
+        <!-- Custom JavaScript (if needed) -->
+        <js><![CDATA[
+      // Custom JS can be used to add interactivity or additional logging
+      console.log("Custom JavaScript loaded for ExtentReports");
+    ]]></js>
+
+            <reportTheme>dark</reportTheme>
+            <documentTitle>Automation Test Report</documentTitle>
+            <reportName>Regression Execution Report</reportName>
+            <logo>
+                <imagePath>"C:\Users\sreenu\OneDrive\Pictures\sreenupic.jpeg"</imagePath>
+            </logo>
+
+    </configuration>
+</extentreports>
