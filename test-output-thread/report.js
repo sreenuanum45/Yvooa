@@ -1,0 +1,4 @@
+$(document).ready(function() {
+CucumberHTML.timelineItems.pushArray([{"id":"8e13b33a-31db-4d94-98bd-74dcf4b78b29","feature":"User Portfolio","scenario":"Portfolio Creation with valid credentials Help_OF_ExcelSheet","start":1747926576298,"group":27,"content":"","tags":"@login,","end":1747926576443,"className":"passed"},{"id":"8edc88d7-a473-45e4-a1b3-cada8cdccb02","feature":"User Portfolio","scenario":"Portfolio Creation","start":1747926576441,"group":28,"content":"","tags":"@portfolio,","end":1747926665568,"className":"passed"}]);
+CucumberHTML.timelineGroups.pushArray([{"id":27,"content":"Thread[#27,TestNG-PoolService-1,5,main]"},{"id":28,"content":"Thread[#28,TestNG-PoolService-2,5,main]"}]);
+});
