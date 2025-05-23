@@ -4,6 +4,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.FluentWait;
 
 public class Test1 {
     public static void main(String[] args) {
@@ -16,6 +17,7 @@ public class Test1 {
 
         // 3) Create a new RemoteWebDriver instance
         RemoteWebDriver driver = new ChromeDriver(options);
+        FluentWait wait = new FluentWait(driver);
         driver.manage().window().maximize();
         driver.manage().deleteAllCookies();
 
@@ -68,5 +70,6 @@ public class Test1 {
             // (Optional) Close the browser when done
             // driver.quit();
         }
+
     }
 }

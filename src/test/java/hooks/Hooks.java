@@ -35,7 +35,7 @@ public class Hooks {
     @Before(order = 0)
     public void beforeScenario(Scenario scenario) throws Exception {
         Log4jManager.info("=== Starting Scenario: " + scenario.getName() + " ===");
-        /* Uncomment if video recording is desired.
+        // Uncomment if video recording is desired.
         try {
             String videoName = scenario.getName().replaceAll(" ", "") + "_" + System.currentTimeMillis();
             recorder = new ATUTestRecorder("videos/", videoName, false);
@@ -43,7 +43,7 @@ public class Hooks {
         } catch (Exception e) {
             ExtentCucumberAdapter.getCurrentScenario().info("Video recording failed to start: " + e.getMessage());
         }
-        */
+
        // Reset index before each scenario outline
         ExtentCucumberAdapter.getCurrentScenario().createNode(scenario.getName());
         ExtentCucumberAdapter.addTestStepLog("Starting Scenario: " + scenario.getName());
@@ -83,7 +83,7 @@ public class Hooks {
     @After
     public void afterScenario(Scenario scenario) {
         // Optional: Stop video recording if enabled.
-        /*
+
         try {
             if (recorder != null) {
                 recorder.stop();
@@ -92,7 +92,7 @@ public class Hooks {
         } catch (Exception e) {
             ExtentCucumberAdapter.getCurrentScenario().info("Error stopping video recording: " + e.getMessage());
         }
-        */
+
 
         // Capture browser console logs if the WebDriver is initialized.
         if (DriverManager.isDriverInitialized()) {
@@ -132,7 +132,7 @@ public class Hooks {
 
         // Quit the WebDriver session.
        if (DriverManager.isDriverInitialized()){
-          //  DriverManager.quitDriver();
+           DriverManager.quitDriver();
         }
         // Reset the WebDriver instance.
 
@@ -140,4 +140,5 @@ public class Hooks {
         // Log the end of the scenario.
         Log4jManager.info("=== Ending Scenario: " + scenario.getName() + " ===");
     }
+
 }

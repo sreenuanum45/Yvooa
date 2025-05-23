@@ -30,7 +30,7 @@ public class PortfolioPage {
     private WebElement einSsnInput;
     @FindBy(id="emailInput")
     private WebElement emailInput;
-    @FindBy(xpath="//div[@id='address1']")
+    @FindBy(xpath="//input[@id='address1']")
     private WebElement address1;
     @FindBy(id="undefinedAddress2Input")
     private WebElement address2;
@@ -41,7 +41,7 @@ public class PortfolioPage {
 
     @FindBy(name="state")
     private WebElement state;
-    @FindBy(xpath="//div[contains(@id, 'react-select')][2]")
+    @FindBy(xpath="//div[@class='pac-container pac-logo hdpi']//div")
     private List<WebElement> option;
     @FindBy(name="country")
     private WebElement country;

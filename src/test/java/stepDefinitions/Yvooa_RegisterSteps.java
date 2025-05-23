@@ -10,10 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.WindowType;
+import org.openqa.selenium.*;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -36,7 +33,7 @@ public class Yvooa_RegisterSteps {
    private SignUPPage signUPPage;
     public String generatedEmail;
     public static  String mail;
-    public static RemoteWebDriver driver;
+    public static WebDriver driver;
     public WaitUtility wait;
     String emailText;
     public Yvooa_RegisterSteps() {
@@ -57,7 +54,7 @@ public class Yvooa_RegisterSteps {
         Thread.sleep(5000);
         driver.navigate().to("https://temp-mail.org/en/");
         // Create a FluentWait instance for waiting for the email element
-        FluentWait<RemoteWebDriver> fluentWait = new FluentWait<>(driver)
+        FluentWait<WebDriver> fluentWait = new FluentWait<>(driver)
                 .withTimeout(Duration.ofSeconds(30))
                 .pollingEvery(Duration.ofSeconds(5))
                 .ignoring(NoSuchElementException.class);
@@ -69,7 +66,8 @@ public class Yvooa_RegisterSteps {
         fluentWait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(By.id("mail")));
         wait.waitForElementToBeVisible(emailElement);
         // Scroll into view and retrieve the generated email
-        driver.executeScript("arguments[0].scrollIntoView();", emailElement);
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+       js.executeScript("arguments[0].scrollIntoView();", emailElement);
        /* mail = emailElement.getDomAttribute("value");
         System.out.println("Generated email: " + mail);
         Thread.sleep(5000);
@@ -141,7 +139,7 @@ public class Yvooa_RegisterSteps {
             Set<String> handles = driver.getWindowHandles();
             List<String> tabs = new ArrayList<>(handles);
             driver.switchTo().window(tabs.get(1));
-            FluentWait<RemoteWebDriver> fluentWait = new FluentWait<>(driver)
+            FluentWait<WebDriver> fluentWait = new FluentWait<>(driver)
                     .withTimeout(Duration.ofSeconds(30))
                     .pollingEvery(Duration.ofSeconds(5))
                     .ignoring(NoSuchElementException.class);
@@ -151,7 +149,8 @@ public class Yvooa_RegisterSteps {
                 //driver.executeScript("arguments[0].scrollIntoView();", message);
                 wait.waitForElementToBeVisible(message);
                 //wait.waitForElementToBeClickable(message);
-                driver.executeScript("arguments[0].click();", message);
+                JavascriptExecutor js = (JavascriptExecutor) driver;
+           js.executeScript("arguments[0].click();", message);
             }
             WebElement OtpElement = fluentWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(text(),'Your confirmation code is')]")));
             String OptElementText = OtpElement.getText();

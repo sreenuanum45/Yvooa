@@ -1,8 +1,11 @@
 package stepDefinitions;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
+import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
+import config.TestEnvironment;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -17,6 +20,7 @@ import io.cucumber.java.Scenario;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
+import org.testng.annotations.DataProvider;
 import pageObjects.DashboardPage;
 import pageObjects.LoginPage;
 import pageObjects.PortfolioPage;
@@ -24,11 +28,15 @@ import utilities.CommonActions;
 import utilities.ExcelUtility;
 import utilities.WaitUtility;
 
+import static stepDefinitions.Yvooa_RegisterSteps.driver;
+
 public class PortfolioStepDefinitions {
-    private WebDriver driver;
+    private static int scenarioInstanceCount = 0;
+    private static final Object lock = new Object(); // For thread safety
+
     private static final double VISUAL_DIFF_THRESHOLD = 0.5;
     private static Eyes eyes = ApplitoolsHooks.getEyes();
-    private List<Map<String, String>> testData;
+    private  List<Map<String, String>> testData;
     private PortfolioPage portfolioPage;
     private LoginPage loginPage;
     private DashboardPage dashboardPage;
@@ -38,13 +46,27 @@ public class PortfolioStepDefinitions {
 
     // Public no-argument constructor required by PicoContainer
     public PortfolioStepDefinitions() {
+
         // Initialize PageFactory elements using the current WebDriver
         PageFactory.initElements(DriverManager.getDriver(), this);
     }
 
     @Before(order = 1)
     public void beforeScenario(Scenario scenario) {
+
         currentScenario = scenario;
+        if (testData != null && !testData.isEmpty()) {
+            // Assume each scenario in outline corresponds to one row
+            String scenarioName = scenario.getName();
+            int scenarioIndex = Integer.parseInt(scenarioName.split(" - ")[1]); // e.g., "Portfolio Creation - 0"
+            if (scenarioIndex < testData.size()) {
+                dataRowIndex = scenarioIndex;
+            } else {
+                throw new RuntimeException("No matching test data found for scenario: " + scenarioName);
+            }
+        }
+
+
     }
 
     @Then("User enters valid credentials")
@@ -55,7 +77,6 @@ public class PortfolioStepDefinitions {
             loginPage.enterEmail(data.get("username"));
             loginPage.enterPassword(data.get("password"));
             loginPage.clickLoginButton();
-
         } else {
             throw new RuntimeException("No more test data found for scenario: " + currentScenario.getName());
         }
@@ -70,7 +91,7 @@ public class PortfolioStepDefinitions {
     @Then("User is redirected to the Portfolio page")
     public void verify_portfolio_page() {
         portfolioPage = new PortfolioPage(new CommonActions(), new WaitUtility());
-        driver = DriverManager.getDriver();
+     driver = DriverManager.getDriver();
         Assert.assertEquals(driver.getCurrentUrl(), "https://pm-uat.yvooa.com/portfolio");
         portfolioPage.waitforTableToLoad();
 
@@ -132,7 +153,6 @@ public class PortfolioStepDefinitions {
             portfolioPage.enterState(data.get("State"));
             portfolioPage.enterZipCode(data.get("Zip Code"));
             portfolioPage.enterCountry(data.get("Country"));
-
         } else {
             throw new RuntimeException("No more test data found for scenario: " + currentScenario.getName());
         }
@@ -149,8 +169,6 @@ public class PortfolioStepDefinitions {
         Assert.assertEquals(portfolioPage.getSuccessMessage(), "Success");
         portfolioPage.clickOnOkButton();
     }
-
-
     @io.cucumber.java.After(order = 1)
     public void afterScenario() {
 
@@ -168,17 +186,20 @@ public class PortfolioStepDefinitions {
         try {
             String sheet = string2;
             String scenarioName = currentScenario.getName();
-            String filePath = File; // Path to your Excel file
-            testData = ExcelUtility.getData(filePath, scenarioName);
+            String filePath = File;
+            //testData = ExcelUtility.getData(filePath, scenarioName);
+            testData = ExcelUtility.getData(filePath, sheet);
             if (testData == null) {
                 throw new RuntimeException("No test data found for scenario: " + scenarioName);
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-
         }
     }
+    /*@Given("load the data from excel sheet")
+    public void load_the_data_from_excel_sheet(){
+        getPortfolioData();
+    }*/
 
     @Then("Click on the {string} button")
     public void click_on_the_Selected_Portfolio_button(String portfolioName) throws InterruptedException {
@@ -204,5 +225,64 @@ public class PortfolioStepDefinitions {
         }
 
     }
+    @DataProvider(name = "portfolioData")
+    public Object[][] getPortfolioData() throws IOException {
+        String filePath = "D:\\batch264\\Yvooa\\src\\test\\resources\\testdata.xlsx";
+        List<Map<String, String>> dataList = ExcelUtility.getData(filePath, "Portfolio Creation");
+
+        // Convert List<Map> to Object[][]
+        Object[][] testData = new Object[dataList.size()][1];
+        for (int i = 0; i < dataList.size(); i++) {
+            testData[i][0] = dataList.get(i);
+        }
+        return testData;
+    }
+    @Given("load the data from the file {string} and {string} excel sheet")
+    public void load_the_data_from_the_file_and_excel_sheet(String string, String string2) throws IOException, InterruptedException {
+//        driver = DriverManager.getDriver();
+        driver.manage().deleteAllCookies();
+        DriverManager.getDriver().get(TestEnvironment.getBaseUrl() + "/login");
+        List<Map<String, String>> excelData = ExcelUtility.getData(string, string2);
+
+        for (Map<String, String> rowData : excelData) {
+            System.out.println("Running for: " + rowData);
+
+            loginPage = new LoginPage(new CommonActions(), new WaitUtility());
+            Thread.sleep(2000);
+            loginPage = new LoginPage(new CommonActions(), new WaitUtility());
+            loginPage.enterEmail(rowData.get("username"));
+            loginPage.enterPassword(rowData.get("password"));
+            loginPage.clickLoginButton();
+            dashboardPage = new DashboardPage(new CommonActions(), new WaitUtility());
+            dashboardPage.ClickOnPortfolio();
+            portfolioPage = new PortfolioPage(new CommonActions(), new WaitUtility());
+//            driver = DriverManager.getDriver();
+            Assert.assertEquals(driver.getCurrentUrl(), "https://pm-uat.yvooa.com/portfolio");
+            portfolioPage.waitforTableToLoad();
+            portfolioPage.clickAddNewPortfolio();
+            portfolioPage.LoaderDisapear();
+            portfolioPage.enterPhoneNumber(rowData.get("Portfoilo_Owner_Contact_Number"));
+            portfolioPage.enterPortfolioName(rowData.get("portfolioName"));
+            portfolioPage.SelectPortfolioType(rowData.get("portfolioType"));
+            portfolioPage.entereinSsnInput(rowData.get("EIN No"));
+            portfolioPage.enterEmail(rowData.get("Portfolio Owner Email ID"));
+            portfolioPage.clickOnNextButton();
+            portfolioPage.enterAddress1(rowData.get("Address 1"));
+            portfolioPage.enterAddress2(rowData.get("Address 2"));
+            portfolioPage.enterCity(rowData.get("City"));
+            portfolioPage.enterState(rowData.get("State"));
+            portfolioPage.enterZipCode(rowData.get("Zip Code"));
+            portfolioPage.enterCountry(rowData.get("Country"));
+            portfolioPage.clickOnNextButton();
+            portfolioPage.clickOnConfirmButton();
+            Assert.assertEquals(portfolioPage.getNewPortfolioCreatedMessage(), "New Portfolio Created");
+            Assert.assertEquals(portfolioPage.getSuccessMessage(), "Success");
+            portfolioPage.clickOnOkButton();
+            // Quit the driver and clean up resources
+
+    }
+        DriverManager.quitDriver();
+    }
+
 }
 
