@@ -51,6 +51,7 @@ public class Yoova_LoginSteps {
         DriverManager.getDriver().get(TestEnvironment.getBaseUrl() + "/login");
         // Initialize the LoginPage page object with the injected dependencies
         loginPage = new LoginPage(new CommonActions(), new WaitUtility());
+
     }
 
     @When("User enters {string} and {string} valid credentials")

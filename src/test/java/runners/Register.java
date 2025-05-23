@@ -1,5 +1,7 @@
 package runners;
 
+import config.PicoContainerConfig;
+import org.picocontainer.MutablePicoContainer;
 import org.testng.annotations.DataProvider;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
@@ -21,6 +23,7 @@ import io.cucumber.testng.CucumberOptions;
                 "timeline:test-output-thread/",
                 "rerun:target/failedrerun.txt"
         },
+
         monochrome = true
 )
 
@@ -30,5 +33,6 @@ public class Register extends AbstractTestNGCucumberTests {
     public Object[][] scenarios() {
         return super.scenarios();
     }
+
 
 }

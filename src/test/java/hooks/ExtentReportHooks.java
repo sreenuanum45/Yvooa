@@ -2,6 +2,7 @@ package hooks;
 
 import java.util.Base64;
 
+import io.cucumber.java.*;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -10,11 +11,6 @@ import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.Status;
 
 import config.DriverManager;
-import io.cucumber.java.After;
-import io.cucumber.java.AfterAll;
-import io.cucumber.java.Before;
-import io.cucumber.java.BeforeAll;
-import io.cucumber.java.Scenario;
 import reporting.ExtentManager;
 
 /**
@@ -40,7 +36,7 @@ public class ExtentReportHooks {
         ExtentTest test = ExtentManager.getInstance().createTest(scenario.getName());
         scenarioTest.set(test);
     }
-    /*@BeforeStep
+    @BeforeStep
     public void beforeStep(Scenario scenario) {
         ExtentTest test = scenarioTest.get();
         test.log(Status.INFO, "Starting step: " + scenario.getName());
@@ -49,7 +45,7 @@ public class ExtentReportHooks {
     public void afterStep(Scenario scenario) {
         ExtentTest test = scenarioTest.get();
         test.log(Status.INFO, "Ending step: " + scenario.getName());
-    }*/
+    }
 
     @After
     public void afterScenario(Scenario scenario) {
